@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
+import './Steps';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Submit your CV</h1>
         </header>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          <Steps>
+          </Steps>
         </p>
       </div>
     );
