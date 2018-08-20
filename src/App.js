@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Container, Form, Checkbox, TextArea } from 'semantic-ui-react';
+import { Container, Checkbox, TextArea } from 'semantic-ui-react';
 import './App.css';
 import Steps from './Steps';
 import FileInput from './FileInput';
+import FormFieldErrorable from './FormFieldErrorable';
 
 const SUBMISSIONS_URL = 'https://recruitment-submissions.netsells.co.uk/api/vacancies/javascript-developer/submissions';
 const FILE_FIELDS = ['cv', 'cover_letter'];
@@ -31,7 +32,7 @@ class App extends Component {
         cover_letter: undefined,
         about_you: '',
       },
-      errors: {}
+      errors: {},
     };
   }
 
@@ -107,7 +108,7 @@ class App extends Component {
       body: data,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
-      }
+      },
     }).then(response => {
       switch (response.status) {
         case 422: {
@@ -137,7 +138,7 @@ class App extends Component {
         <Container>
           <Steps onSubmit={() => this.handleSubmit()}>
             <React.Fragment>
-              <Form.Field>
+              <FormFieldErrorable error={this.state.errors.first_name}>
                 <label>First Name</label>
                 <input
                   placeholder="First Name"
@@ -145,16 +146,16 @@ class App extends Component {
                   onChange={this.getOnChange('first_name')}
                   required
                 />
-              </Form.Field>
-              <Form.Field>
+              </FormFieldErrorable>
+              <FormFieldErrorable error={this.state.errors.last_name}>
                 <label>Last Name</label>
                 <input
                   placeholder="Last Name"
                   value={this.state.fields.last_name}
                   onChange={this.getOnChange('last_name')}
                 />
-              </Form.Field>
-              <Form.Field>
+              </FormFieldErrorable>
+              <FormFieldErrorable error={this.state.errors.email}>
                 <label>Email</label>
                 <input
                   placeholder="Email"
@@ -163,8 +164,8 @@ class App extends Component {
                   type="email"
                   required
                 />
-              </Form.Field>
-              <Form.Field>
+              </FormFieldErrorable>
+              <FormFieldErrorable error={this.state.errors.phone_number}>
                 <label>Phone Number</label>
                 <input
                   placeholder="Phone Number"
@@ -172,15 +173,15 @@ class App extends Component {
                   onChange={this.getOnChange('phone_number')}
                   required
                 />
-              </Form.Field>
-              <Form.Field>
+              </FormFieldErrorable>
+              <FormFieldErrorable error={this.state.errors.live_in_uk}>
                 <label>Do you live in the UK?</label>
                 <Checkbox
                   checked={this.state.fields.live_in_uk}
                   onChange={this.getOnChangeCheckbox('live_in_uk')}
                 />
-              </Form.Field>
-              <Form.Field>
+              </FormFieldErrorable>
+              <FormFieldErrorable error={this.state.errors.git_profile}>
                 <label>Git Profile</label>
                 <input
                   placeholder="Git Profile"
@@ -188,34 +189,34 @@ class App extends Component {
                   onChange={this.getOnChange('git_profile')}
                   required
                 />
-              </Form.Field>
+              </FormFieldErrorable>
             </React.Fragment>
             <React.Fragment>
-              <Form.Field>
+              <FormFieldErrorable error={this.state.errors.cv}>
                 <label>CV</label>
                 <FileInput
                   value={this.state.fields.cv}
                   onChange={this.getOnChangeFile('cv')}
                   required
                 />
-              </Form.Field>
-              <Form.Field>
+              </FormFieldErrorable>
+              <FormFieldErrorable error={this.state.errors.cover_letter}>
                 <label>Cover Letter</label>
                 <FileInput
                   value={this.state.fields.cover_letter}
                   onChange={this.getOnChangeFile('cover_letter')}
                 />
-              </Form.Field>
+              </FormFieldErrorable>
             </React.Fragment>
             <React.Fragment>
-              <Form.Field>
+              <FormFieldErrorable error={this.state.errors.about_you}>
                 <label>About You</label>
                 <TextArea
                   required
                   onChange={this.getOnChange('about_you')}
                   value={this.state.fields.about_you}
                 />
-              </Form.Field>
+              </FormFieldErrorable>
             </React.Fragment>
           </Steps>
         </Container>
