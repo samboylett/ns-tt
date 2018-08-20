@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Segment } from 'semantic-ui-react';
 
 class Steps extends React.Component {
   constructor(props) {
@@ -27,6 +27,14 @@ class Steps extends React.Component {
     );
   }
 
+  renderStep(step, index) {
+    return (
+      <Segment className={index !== this.state.step && 'hide'}>
+        {step}
+      </Segment>
+    );
+  }
+
   render() {
     return (
       <Form
@@ -34,7 +42,7 @@ class Steps extends React.Component {
           ? this.props.onSubmit
           : () => this.setState({ step: this.state.step + 1 })}
       >
-        {this.props.children[this.state.step]}
+        {React.Children.map(this.props.children, this.renderStep.bind(this))}
         {this.renderPreviousButton()}
         <Button
           type="submit"
