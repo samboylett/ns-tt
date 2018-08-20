@@ -52,7 +52,7 @@ class App extends Component {
         },
         errors: {
           ...this.state.errors,
-          [fieldName]: undefined
+          [fieldName]: undefined,
         },
       });
     }
@@ -73,7 +73,7 @@ class App extends Component {
         },
         errors: {
           ...this.state.errors,
-          [fieldName]: undefined
+          [fieldName]: undefined,
         },
       });
     }
@@ -94,7 +94,7 @@ class App extends Component {
         },
         errors: {
           ...this.state.errors,
-          [fieldName]: undefined
+          [fieldName]: undefined,
         },
       });
     }
@@ -129,7 +129,7 @@ class App extends Component {
       .then(response => {
         switch (response.status) {
           case 422: {
-            return response.json().then(({ message, errors }) => {
+            return response.json().then(({ errors }) => {
               this.setState({ errors });
             });
           }
@@ -138,7 +138,7 @@ class App extends Component {
           }
         }
       })
-      .catch(() => {})
+      .catch()
       .then(() => {
         this.setState({ loading: false });
       });
