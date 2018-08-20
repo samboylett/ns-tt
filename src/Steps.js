@@ -38,6 +38,32 @@ class Steps extends React.Component {
   }
 
   /**
+   * Go to the previous step
+   */
+  previous() {
+    this.setState({ step: this.state.step - 1 });
+  }
+
+  /**
+   * Go to the next step
+   */
+  next() {
+    this.setState({ step: this.state.step + 1 });
+  }
+
+  /**
+   * Handles the submit action, either moves on to the next step
+   * or submits the form
+   */
+  handleSubmit() {
+    if (this.isLastStep()) {
+      this.props.onSubmit();
+    } else {
+      this.next();
+    }
+  }
+
+  /**
    * Renders the `Previous` button if there is a previous step
    *
    * @returns {React.Node}
@@ -48,7 +74,7 @@ class Steps extends React.Component {
     }
 
     return (
-      <Button onClick={() => this.setState({ step: this.state.step - 1 })}>Previous</Button>
+      <Button type="button" onClick={() => this.previous()}>Previous</Button>
     );
   }
 
@@ -59,11 +85,7 @@ class Steps extends React.Component {
    */
   render() {
     return (
-      <Form
-        onSubmit={this.isLastStep()
-          ? this.props.onSubmit
-          : () => this.setState({ step: this.state.step + 1 })}
-      >
+      <Form onSubmit={() => this.handleSubmit()}>
         {this.props.children[this.state.step]}
         {this.renderPreviousButton()}
         <Button

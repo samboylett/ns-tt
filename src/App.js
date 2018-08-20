@@ -159,7 +159,6 @@ class App extends Component {
                 <FileInput
                   value={this.state.coverLetter}
                   onChange={this.getOnChangeFile('coverLetter')}
-                  required
                 />
               </Form.Field>
             </React.Fragment>
