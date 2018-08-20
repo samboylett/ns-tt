@@ -46,7 +46,6 @@ class Steps extends React.Component {
         {this.renderPreviousButton()}
         <Button
           type="submit"
-          onClick={() => this.setState({ step: this.state.step + 1 })}
           className="pull-right"
         >{this.isLastStep() ? 'Submit' : 'Next'}</Button>
       </Form>
