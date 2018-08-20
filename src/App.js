@@ -17,10 +17,12 @@ class App extends Component {
     };
   }
 
-  getOnChange(fieldName) {
-    return (event) => {
+  getOnChange(fieldName, checkbox = false) {
+    return (event, data) => {
       this.setState({
-        [fieldName]: event.currentTarget.value
+        [fieldName]: checkbox
+          ? data.checked
+          : data.value
       });
     }
   }
@@ -77,8 +79,8 @@ class App extends Component {
               <Form.Field>
                 <label>Do you live in the UK?</label>
                 <Checkbox
-                  value={this.state.liveInUk}
-                  onChange={this.getOnChange('liveInUk')}
+                  checked={this.state.liveInUk}
+                  onChange={this.getOnChange('liveInUk', true)}
                 />
               </Form.Field>
               <Form.Field>
