@@ -11,3 +11,16 @@ body {
 .hide {
   display: none;
 }
+
+.file-input {
+  position: relative;
+}
+
+.file-input input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+}

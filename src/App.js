@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Form, Checkbox, TextArea } from 'semantic-ui-react';
 import './App.css';
 import Steps from './Steps';
+import FileInput from './FileInput';
 
 /**
  * Renders a multi-step form to submit a CV
@@ -22,8 +23,8 @@ class App extends Component {
       phoneNumber: '',
       liveInUk: false,
       gitProfile: '',
-      cv: null,
-      coverLetter: null,
+      cv: '',
+      coverLetter: '',
       aboutYou: '',
     };
   }
@@ -147,16 +148,16 @@ class App extends Component {
             <React.Fragment>
               <Form.Field>
                 <label>CV</label>
-                <input
-                  type="file"
+                <FileInput
+                  value={this.state.cv}
                   onChange={this.getOnChangeFile('cv')}
                   required
                 />
               </Form.Field>
               <Form.Field>
                 <label>Cover Letter</label>
-                <input
-                  type="file"
+                <FileInput
+                  value={this.state.coverLetter}
                   onChange={this.getOnChangeFile('coverLetter')}
                   required
                 />
