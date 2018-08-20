@@ -33,6 +33,7 @@ class App extends Component {
         about_you: '',
       },
       errors: {},
+      loading: false,
     };
   }
 
@@ -106,6 +107,8 @@ class App extends Component {
     const data = new FormData();
     const { fields } = this.state;
 
+    this.setState({ loading: true });
+
     Object.keys(fields).forEach(key => {
       if (FILE_FIELDS.includes(key)) {
         if (fields[key] && fields[key][0]) {
@@ -122,19 +125,23 @@ class App extends Component {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
       },
-    }).then(response => {
-      switch (response.status) {
-        case 422: {
-          response.json().then(({ message, errors }) => {
-            this.setState({ errors });
-          });
-          break;
+    })
+      .then(response => {
+        switch (response.status) {
+          case 422: {
+            return response.json().then(({ message, errors }) => {
+              this.setState({ errors });
+            });
+          }
+          default: {
+            console.log('default', response);
+          }
         }
-        default: {
-          console.log('default', response);
-        }
-      }
-    });
+      })
+      .catch(() => {})
+      .then(() => {
+        this.setState({ loading: false });
+      });
   }
 
   /**
@@ -160,7 +167,10 @@ class App extends Component {
               content={`${errorCount} errors need resolving`}
             />
           )}
-          <Steps onSubmit={() => this.handleSubmit()}>
+          <Steps
+            onSubmit={() => this.handleSubmit()}
+            loading={this.state.loading}
+          >
             <React.Fragment>
               <FormFieldErrorable error={this.state.errors.first_name}>
                 <label>First Name</label>

@@ -74,7 +74,11 @@ class Steps extends React.Component {
     }
 
     return (
-      <Button type="button" onClick={() => this.previous()}>Previous</Button>
+      <Button
+        type="button"
+        onClick={() => this.previous()}
+        disabled={this.props.loading}
+      >Previous</Button>
     );
   }
 
@@ -85,12 +89,13 @@ class Steps extends React.Component {
    */
   render() {
     return (
-      <Form onSubmit={() => this.handleSubmit()}>
+      <Form onSubmit={() => this.handleSubmit()} loading={this.props.loading}>
         {this.props.children[this.state.step]}
         {this.renderPreviousButton()}
         <Button
           type="submit"
           className="pull-right"
+          disabled={this.props.loading}
         >{this.isLastStep() ? 'Submit' : 'Next'}</Button>
       </Form>
     );
@@ -100,6 +105,7 @@ class Steps extends React.Component {
 Steps.propTypes = {
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
   onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };
 
 export default Steps;
