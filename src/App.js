@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Form, Checkbox } from 'semantic-ui-react';
+import { Container, Form, Checkbox, TextArea } from 'semantic-ui-react';
 import './App.css';
 import Steps from './Steps';
 
@@ -13,16 +13,33 @@ class App extends Component {
       email: '',
       phoneNumber: '',
       liveInUk: false,
-      gitProfile: ''
+      gitProfile: '',
+      cv: null,
+      coverLetter: null,
+      aboutYou: ''
     };
   }
 
-  getOnChange(fieldName, checkbox = false) {
+  getOnChange(fieldName) {
     return (event, data) => {
       this.setState({
-        [fieldName]: checkbox
-          ? data.checked
-          : data.value
+        [fieldName]: data.value
+      });
+    }
+  }
+
+  getOnChangeCheckbox(fieldName) {
+    return (event, data) => {
+      this.setState({
+        [fieldName]: data.checked
+      });
+    }
+  }
+
+  getOnChangeFile(fieldName) {
+    return (event) => {
+      this.setState({
+        [fieldName]: event.currentTarget.files
       });
     }
   }
@@ -80,7 +97,7 @@ class App extends Component {
                 <label>Do you live in the UK?</label>
                 <Checkbox
                   checked={this.state.liveInUk}
-                  onChange={this.getOnChange('liveInUk', true)}
+                  onChange={this.getOnChangeCheckbox('liveInUk')}
                 />
               </Form.Field>
               <Form.Field>
@@ -94,6 +111,32 @@ class App extends Component {
               </Form.Field>
             </React.Fragment>
             <React.Fragment>
+              <Form.Field>
+                <label>CV</label>
+                <input
+                  type="file"
+                  onChange={this.getOnChangeFile('cv')}
+                  required
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Cover Letter</label>
+                <input
+                  type="file"
+                  onChange={this.getOnChangeFile('coverLetter')}
+                  required
+                />
+              </Form.Field>
+            </React.Fragment>
+            <React.Fragment>
+              <Form.Field>
+                <label>About You</label>
+                <TextArea
+                  required
+                  onChange={this.getOnChange('aboutYou')}
+                  value={this.state.aboutYou}
+                />
+              </Form.Field>
             </React.Fragment>
           </Steps>
         </Container>
