@@ -25,7 +25,7 @@ class CVForm extends React.Component {
         last_name: '',
         email: '',
         phone_number: '',
-        live_in_uk: false,
+        live_in_uk: 0,
         git_profile: '',
         cv: undefined,
         cover_letter: undefined,
@@ -69,7 +69,7 @@ class CVForm extends React.Component {
       this.setState({
         fields: {
           ...this.state.fields,
-          [fieldName]: data.checked,
+          [fieldName]: data.checked ? 1 : 0,
         },
         errors: {
           ...this.state.errors,
@@ -215,7 +215,7 @@ class CVForm extends React.Component {
             <FormFieldErrorable error={this.state.errors.live_in_uk}>
               <label>Do you live in the UK?</label>
               <Checkbox
-                checked={this.state.fields.live_in_uk}
+                checked={Boolean(this.state.fields.live_in_uk)}
                 onChange={this.getOnChangeCheckbox('live_in_uk')}
               />
             </FormFieldErrorable>
