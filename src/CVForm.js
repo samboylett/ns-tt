@@ -38,24 +38,32 @@ class CVForm extends React.Component {
   }
 
   /**
+   * Sets a fields value and clears its error if it has one
+   *
+   * @param {string} name
+   * @param {any} value
+   */
+  setField(name, value) {
+    this.setState({
+      fields: {
+        ...this.state.fields,
+        [name]: value,
+      },
+      errors: {
+        ...this.state.errors,
+        [name]: undefined,
+      },
+    });
+  }
+
+  /**
    * Curry function to get an onChange handler
    *
    * @param {string} fieldName
    * @returns {Function} - onChange handler
    */
   getOnChange(fieldName) {
-    return (event) => {
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          [fieldName]: event.currentTarget.value,
-        },
-        errors: {
-          ...this.state.errors,
-          [fieldName]: undefined,
-        },
-      });
-    }
+    return (event) => this.setField(fieldName, event.currentTarget.value);
   }
 
   /**
@@ -65,18 +73,7 @@ class CVForm extends React.Component {
    * @returns {Function} - onChange handler
    */
   getOnChangeCheckbox(fieldName) {
-    return (event, data) => {
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          [fieldName]: data.checked ? 1 : 0,
-        },
-        errors: {
-          ...this.state.errors,
-          [fieldName]: undefined,
-        },
-      });
-    }
+    return (event, data) => this.setField(fieldName, data.checked ? 1 : 0);
   }
 
   /**
@@ -86,18 +83,7 @@ class CVForm extends React.Component {
    * @returns {Function} - onChange handler
    */
   getOnChangeFile(fieldName) {
-    return (event) => {
-      this.setState({
-        fields: {
-          ...this.state.fields,
-          [fieldName]: event.currentTarget.files,
-        },
-        errors: {
-          ...this.state.errors,
-          [fieldName]: undefined,
-        },
-      });
-    }
+    return (event) => this.setField(fieldName, event.currentTarget.files);
   }
 
   /**
