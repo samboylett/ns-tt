@@ -27,15 +27,6 @@ class Steps extends React.Component {
     );
   }
 
-  renderNextOrSubmit() {
-    return (
-      <Button
-        type="submit"
-        className="pull-right"
-      >{this.isLastStep() ? 'Submit' : 'Next'}</Button>
-    );
-  }
-
   render() {
     return (
       <Form
@@ -45,7 +36,11 @@ class Steps extends React.Component {
       >
         {this.props.children[this.state.step]}
         {this.renderPreviousButton()}
-        {this.renderNextOrSubmit()}
+        <Button
+          type="submit"
+          onClick={() => this.setState({ step: this.state.step + 1 })}
+          className="pull-right"
+        >{this.isLastStep() ? 'Submit' : 'Next'}</Button>
       </Form>
     );
   }

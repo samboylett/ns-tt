@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Form } from 'semantic-ui-react';
+import { Container, Form, Checkbox } from 'semantic-ui-react';
 import './App.css';
 import Steps from './Steps';
 
@@ -11,7 +11,9 @@ class App extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      liveInUk: false,
+      gitProfile: ''
     };
   }
 
@@ -23,6 +25,10 @@ class App extends Component {
     }
   }
 
+  handleSubmit() {
+    console.log('handleSubmit');
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -30,7 +36,7 @@ class App extends Component {
           <h1>Submit your CV</h1>
         </header>
         <Container>
-          <Steps>
+          <Steps onSubmit={() => this.handleSubmit}>
             <React.Fragment>
               <Form.Field>
                 <label>First Name</label>
@@ -68,8 +74,25 @@ class App extends Component {
                   required
                 />
               </Form.Field>
+              <Form.Field>
+                <label>Do you live in the UK?</label>
+                <Checkbox
+                  value={this.state.liveInUk}
+                  onChange={this.getOnChange('liveInUk')}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Git Profile</label>
+                <input
+                  placeholder="Git Profile"
+                  value={this.state.gitProfile}
+                  onChange={this.getOnChange('gitProfile')}
+                  required
+                />
+              </Form.Field>
             </React.Fragment>
-            <React.Fragment></React.Fragment>
+            <React.Fragment>
+            </React.Fragment>
           </Steps>
         </Container>
       </React.Fragment>
