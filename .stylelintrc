@@ -1,0 +1,6 @@
+{
+  "extends": "stylelint-config-netsells",
+  "rules": {
+    "declaration-block-no-shorthand-property-overrides": true
+  }
+}

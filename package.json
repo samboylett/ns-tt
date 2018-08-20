@@ -48,7 +48,9 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "lint:js": "eslint src"
+    "lint:js": "eslint src",
+    "lint:css": "stylelint src",
+    "lint": "npm run lint:js && npm run lint:css"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -95,6 +97,9 @@
   "devDependencies": {
     "@netsells/eslint-config": "^1.5.0",
     "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.2.0"
+    "enzyme-adapter-react-16": "^1.2.0",
+    "stylelint": "^9.5.0",
+    "stylelint-config-netsells": "github:netsells/stylelint-config-netsells",
+    "stylelint-webpack-plugin": "^0.10.5"
   }
 }
