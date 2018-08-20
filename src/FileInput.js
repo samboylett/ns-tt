@@ -1,5 +1,12 @@
 import React from 'react'; // eslint-disable-line no-unused-vars
+import PropTypes from 'prop-types';
 
+/**
+ * Renders a controlled file input
+ *
+ * @params {Object} props
+ * @returns {React.Node}
+ */
 const FileInput = ({ value, onChange, ...props }) => {
   if (value && value.length) {
     return (
@@ -27,6 +34,11 @@ const FileInput = ({ value, onChange, ...props }) => {
       {...props}
     />
   );
+};
+
+FileInput.propTypes = {
+  value: PropTypes.instanceOf(FileList),
+  onChange: PropTypes.func.isRequired,
 };
 
 export default FileInput;
