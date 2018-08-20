@@ -92,6 +92,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "@netsells/eslint-config": "^1.5.0",
     "enzyme": "^3.4.4",
     "enzyme-adapter-react-16": "^1.2.0"
   }
