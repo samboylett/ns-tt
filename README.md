@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/samboylett/ns-tt.svg?branch=master)](https://travis-ci.org/samboylett/ns-tt)
+
 ## Usage
 
 ```bash
