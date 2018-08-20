@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 class Steps extends React.Component {
   constructor(props) {
@@ -28,29 +28,32 @@ class Steps extends React.Component {
   }
 
   renderNextOrSubmit() {
-    if (this.isLastStep()) return null;
-
     return (
       <Button
-        onClick={() => this.setState({ step: this.state.step + 1 })}
+        type="submit"
         className="pull-right"
-      >Next</Button>
+      >{this.isLastStep() ? 'Submit' : 'Next'}</Button>
     );
   }
 
   render() {
     return (
-      <React.Fragment>
+      <Form
+        onSubmit={this.isLastStep()
+          ? this.props.onSubmit
+          : () => this.setState({ step: this.state.step + 1 })}
+      >
         {this.props.children[this.state.step]}
         {this.renderPreviousButton()}
         {this.renderNextOrSubmit()}
-      </React.Fragment>
+      </Form>
     );
   }
 }
 
 Steps.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.node).isRequired
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default Steps;
