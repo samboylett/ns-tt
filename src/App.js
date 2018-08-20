@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import './Steps';
+import Steps from './Steps';
+import Step from './Step';
 
 class App extends Component {
   render() {
@@ -11,6 +12,8 @@ class App extends Component {
         </header>
         <p className="App-intro">
           <Steps>
+            <Step>1</Step>
+            <Step>2</Step>
           </Steps>
         </p>
       </div>
