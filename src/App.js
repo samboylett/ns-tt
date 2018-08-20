@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Checkbox, TextArea } from 'semantic-ui-react';
+import { Container, Message, Checkbox, TextArea } from 'semantic-ui-react';
 import './App.css';
 import Steps from './Steps';
 import FileInput from './FileInput';
@@ -49,6 +49,10 @@ class App extends Component {
           ...this.state.fields,
           [fieldName]: event.currentTarget.value,
         },
+        errors: {
+          ...this.state.errors,
+          [fieldName]: undefined
+        },
       });
     }
   }
@@ -65,6 +69,10 @@ class App extends Component {
         fields: {
           ...this.state.fields,
           [fieldName]: data.checked,
+        },
+        errors: {
+          ...this.state.errors,
+          [fieldName]: undefined
         },
       });
     }
@@ -83,6 +91,10 @@ class App extends Component {
           ...this.state.fields,
           [fieldName]: event.currentTarget.files,
         },
+        errors: {
+          ...this.state.errors,
+          [fieldName]: undefined
+        },
       });
     }
   }
@@ -92,14 +104,15 @@ class App extends Component {
    */
   handleSubmit() {
     const data = new FormData();
+    const { fields } = this.state;
 
-    Object.keys(this.state).forEach(key => {
+    Object.keys(fields).forEach(key => {
       if (FILE_FIELDS.includes(key)) {
-        if (this.state[key] && this.state[key][0]) {
-          data.append(key, this.state[key][0]);
+        if (fields[key] && fields[key][0]) {
+          data.append(key, fields[key][0]);
         }
       } else {
-        data.append(key, this.state[key]);
+        data.append(key, fields[key]);
       }
     });
 
@@ -112,8 +125,8 @@ class App extends Component {
     }).then(response => {
       switch (response.status) {
         case 422: {
-          response.json().then(message => {
-            console.log('failed', message);
+          response.json().then(({ message, errors }) => {
+            this.setState({ errors });
           });
           break;
         }
@@ -130,12 +143,23 @@ class App extends Component {
    * @returns {React.Node}
    */
   render() {
+    const errorCount =
+      Object.keys(this.state.errors)
+        .filter(key => this.state.errors[key])
+        .length;
+
     return (
       <React.Fragment>
         <header className="App-header">
           <h1>Submit your CV</h1>
         </header>
         <Container>
+          {Boolean(errorCount) && (
+            <Message
+              negative
+              content={`${errorCount} errors need resolving`}
+            />
+          )}
           <Steps onSubmit={() => this.handleSubmit()}>
             <React.Fragment>
               <FormFieldErrorable error={this.state.errors.first_name}>
