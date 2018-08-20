@@ -3,7 +3,15 @@ import { Container, Form, Checkbox, TextArea } from 'semantic-ui-react';
 import './App.css';
 import Steps from './Steps';
 
+/**
+ * Renders a multi-step form to submit a CV
+ */
 class App extends Component {
+  /**
+   * Sets the initial state
+   *
+   * @param {Object} props
+   */
   constructor(props) {
     super(props);
 
@@ -16,38 +24,64 @@ class App extends Component {
       gitProfile: '',
       cv: null,
       coverLetter: null,
-      aboutYou: ''
+      aboutYou: '',
     };
   }
 
+  /**
+   * Curry function to get an onChange handler
+   *
+   * @param {string} fieldName
+   * @returns {Function} - onChange handler
+   */
   getOnChange(fieldName) {
     return (event, data) => {
       this.setState({
-        [fieldName]: data.value
+        [fieldName]: data.value,
       });
     }
   }
 
+  /**
+   * Curry function to get an onChange handler for a checkbox
+   *
+   * @param {string} fieldName
+   * @returns {Function} - onChange handler
+   */
   getOnChangeCheckbox(fieldName) {
     return (event, data) => {
       this.setState({
-        [fieldName]: data.checked
+        [fieldName]: data.checked,
       });
     }
   }
 
+  /**
+   * Curry function to get an onChange handler for a file input
+   *
+   * @param {string} fieldName
+   * @returns {Function} - onChange handler
+   */
   getOnChangeFile(fieldName) {
     return (event) => {
       this.setState({
-        [fieldName]: event.currentTarget.files
+        [fieldName]: event.currentTarget.files,
       });
     }
   }
 
+  /**
+   * Handles submitting the form
+   */
   handleSubmit() {
     console.log('handleSubmit');
   }
 
+  /**
+   * Renders the app
+   *
+   * @returns {React.Node}
+   */
   render() {
     return (
       <React.Fragment>
