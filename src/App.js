@@ -4,6 +4,9 @@ import './App.css';
 import Steps from './Steps';
 import FileInput from './FileInput';
 
+const SUBMISSIONS_URL = 'https://recruitment-submissions.netsells.co.uk/api/vacancies/javascript-developer/submissions';
+const FILE_FIELDS = ['cv', 'cover_letter'];
+
 /**
  * Renders a multi-step form to submit a CV
  */
@@ -17,15 +20,18 @@ class App extends Component {
     super(props);
 
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      liveInUk: false,
-      gitProfile: '',
-      cv: '',
-      coverLetter: '',
-      aboutYou: '',
+      fields: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        live_in_uk: false,
+        git_profile: '',
+        cv: undefined,
+        cover_letter: undefined,
+        about_you: '',
+      },
+      errors: {}
     };
   }
 
@@ -38,7 +44,10 @@ class App extends Component {
   getOnChange(fieldName) {
     return (event) => {
       this.setState({
-        [fieldName]: event.currentTarget.value,
+        fields: {
+          ...this.state.fields,
+          [fieldName]: event.currentTarget.value,
+        },
       });
     }
   }
@@ -52,7 +61,10 @@ class App extends Component {
   getOnChangeCheckbox(fieldName) {
     return (event, data) => {
       this.setState({
-        [fieldName]: data.checked,
+        fields: {
+          ...this.state.fields,
+          [fieldName]: data.checked,
+        },
       });
     }
   }
@@ -66,7 +78,10 @@ class App extends Component {
   getOnChangeFile(fieldName) {
     return (event) => {
       this.setState({
-        [fieldName]: event.currentTarget.files,
+        fields: {
+          ...this.state.fields,
+          [fieldName]: event.currentTarget.files,
+        },
       });
     }
   }
@@ -75,7 +90,37 @@ class App extends Component {
    * Handles submitting the form
    */
   handleSubmit() {
-    console.log('handleSubmit');
+    const data = new FormData();
+
+    Object.keys(this.state).forEach(key => {
+      if (FILE_FIELDS.includes(key)) {
+        if (this.state[key] && this.state[key][0]) {
+          data.append(key, this.state[key][0]);
+        }
+      } else {
+        data.append(key, this.state[key]);
+      }
+    });
+
+    fetch(SUBMISSIONS_URL, {
+      method: 'POST',
+      body: data,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+      }
+    }).then(response => {
+      switch (response.status) {
+        case 422: {
+          response.json().then(message => {
+            console.log('failed', message);
+          });
+          break;
+        }
+        default: {
+          console.log('default', response);
+        }
+      }
+    });
   }
 
   /**
@@ -96,8 +141,8 @@ class App extends Component {
                 <label>First Name</label>
                 <input
                   placeholder="First Name"
-                  value={this.state.firstName}
-                  onChange={this.getOnChange('firstName')}
+                  value={this.state.fields.first_name}
+                  onChange={this.getOnChange('first_name')}
                   required
                 />
               </Form.Field>
@@ -105,15 +150,15 @@ class App extends Component {
                 <label>Last Name</label>
                 <input
                   placeholder="Last Name"
-                  value={this.state.lastName}
-                  onChange={this.getOnChange('lastName')}
+                  value={this.state.fields.last_name}
+                  onChange={this.getOnChange('last_name')}
                 />
               </Form.Field>
               <Form.Field>
                 <label>Email</label>
                 <input
                   placeholder="Email"
-                  value={this.state.email}
+                  value={this.state.fields.email}
                   onChange={this.getOnChange('email')}
                   type="email"
                   required
@@ -123,24 +168,24 @@ class App extends Component {
                 <label>Phone Number</label>
                 <input
                   placeholder="Phone Number"
-                  value={this.state.phoneNumber}
-                  onChange={this.getOnChange('phoneNumber')}
+                  value={this.state.fields.phone_number}
+                  onChange={this.getOnChange('phone_number')}
                   required
                 />
               </Form.Field>
               <Form.Field>
                 <label>Do you live in the UK?</label>
                 <Checkbox
-                  checked={this.state.liveInUk}
-                  onChange={this.getOnChangeCheckbox('liveInUk')}
+                  checked={this.state.fields.live_in_uk}
+                  onChange={this.getOnChangeCheckbox('live_in_uk')}
                 />
               </Form.Field>
               <Form.Field>
                 <label>Git Profile</label>
                 <input
                   placeholder="Git Profile"
-                  value={this.state.gitProfile}
-                  onChange={this.getOnChange('gitProfile')}
+                  value={this.state.fields.git_profile}
+                  onChange={this.getOnChange('git_profile')}
                   required
                 />
               </Form.Field>
@@ -149,7 +194,7 @@ class App extends Component {
               <Form.Field>
                 <label>CV</label>
                 <FileInput
-                  value={this.state.cv}
+                  value={this.state.fields.cv}
                   onChange={this.getOnChangeFile('cv')}
                   required
                 />
@@ -157,8 +202,8 @@ class App extends Component {
               <Form.Field>
                 <label>Cover Letter</label>
                 <FileInput
-                  value={this.state.coverLetter}
-                  onChange={this.getOnChangeFile('coverLetter')}
+                  value={this.state.fields.cover_letter}
+                  onChange={this.getOnChangeFile('cover_letter')}
                 />
               </Form.Field>
             </React.Fragment>
@@ -167,8 +212,8 @@ class App extends Component {
                 <label>About You</label>
                 <TextArea
                   required
-                  onChange={this.getOnChange('aboutYou')}
-                  value={this.state.aboutYou}
+                  onChange={this.getOnChange('about_you')}
+                  value={this.state.fields.about_you}
                 />
               </Form.Field>
             </React.Fragment>
