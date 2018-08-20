@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Form } from 'semantic-ui-react'
+import { Container, Form } from 'semantic-ui-react';
 import './App.css';
 import FormSteps from './Steps';
 import FormStep from './Step';
