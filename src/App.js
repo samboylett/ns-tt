@@ -1,22 +1,78 @@
 import React, { Component } from 'react';
+import { Container, Form } from 'semantic-ui-react'
 import './App.css';
-import Steps from './Steps';
-import Step from './Step';
+import FormSteps from './Steps';
+import FormStep from './Step';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: ''
+    };
+  }
+
+  getOnChange(fieldName) {
+    return (event) => {
+      this.setState({
+        [fieldName]: event.currentTarget.value
+      });
+    }
+  }
+
   render() {
     return (
-      <div className="App">
+      <React.Fragment>
         <header className="App-header">
-          <h1 className="App-title">Submit your CV</h1>
+          <h1>Submit your CV</h1>
         </header>
-        <p className="App-intro">
-          <Steps>
-            <Step>1</Step>
-            <Step>2</Step>
-          </Steps>
-        </p>
-      </div>
+        <Container>
+          <Form>
+            <FormSteps>
+              <FormStep>
+                <Form.Field>
+                  <label>First Name</label>
+                  <input
+                    placeholder="First Name"
+                    value={this.state.firstName}
+                    onChange={this.getOnChange('firstName')}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Last Name</label>
+                  <input
+                    placeholder="Last Name"
+                    value={this.state.lastName}
+                    onChange={this.getOnChange('lastName')}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Email</label>
+                  <input
+                    placeholder="Email"
+                    value={this.state.email}
+                    onChange={this.getOnChange('email')}
+                    type="email"
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Phone Number</label>
+                  <input
+                    placeholder="Phone Number"
+                    value={this.state.phoneNumber}
+                    onChange={this.getOnChange('phoneNumber')}
+                  />
+                </Form.Field>
+              </FormStep>
+              <FormStep></FormStep>
+            </FormSteps>
+          </Form>
+        </Container>
+      </React.Fragment>
     );
   }
 }
