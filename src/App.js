@@ -35,9 +35,9 @@ class App extends Component {
    * @returns {Function} - onChange handler
    */
   getOnChange(fieldName) {
-    return (event, data) => {
+    return (event) => {
       this.setState({
-        [fieldName]: data.value,
+        [fieldName]: event.currentTarget.value,
       });
     }
   }
@@ -89,7 +89,7 @@ class App extends Component {
           <h1>Submit your CV</h1>
         </header>
         <Container>
-          <Steps onSubmit={() => this.handleSubmit}>
+          <Steps onSubmit={() => this.handleSubmit()}>
             <React.Fragment>
               <Form.Field>
                 <label>First Name</label>

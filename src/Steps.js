@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Segment } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 /**
  * A multi-step form component
@@ -53,22 +53,6 @@ class Steps extends React.Component {
   }
 
   /**
-   * Renders a step as visible if its the current step, otherwise hides it using CSS
-   * Called using React.Children.map so we don't need to worry about keys
-   *
-   * @param {React.Node} step
-   * @param {number} index
-   * @returns {React.Node}
-   */
-  renderStep(step, index) {
-    return (
-      <Segment className={index !== this.state.step && 'hide'}>
-        {step}
-      </Segment>
-    );
-  }
-
-  /**
    * Renders the component
    *
    * @returns {React.Node}
@@ -80,7 +64,7 @@ class Steps extends React.Component {
           ? this.props.onSubmit
           : () => this.setState({ step: this.state.step + 1 })}
       >
-        {React.Children.map(this.props.children, this.renderStep.bind(this))}
+        {this.props.children[this.state.step]}
         {this.renderPreviousButton()}
         <Button
           type="submit"
